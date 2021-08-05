@@ -1,5 +1,8 @@
 ---
-published: false
+published: true
+title: How to setup xampp with multiple ports on Windows
+tags:
+  - Blog
 ---
 # How to setup xampp with multiple ports on Windows
 
@@ -39,8 +42,3 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combine
 ```
 
 4. Restart apache again and test a new address in browser.
-
-
-
-
-
