@@ -6,7 +6,7 @@ tags:
 ---
 xampp default port is 80 and 443 if you have many project and want to setup project with difference port in xampp called “Virtual Hosts” this is how to setup virtual host in xampp for difference port.
 
-<--more-->
+<!--more-->
 
 Update **C:\xampp\apache\conf\httpd.conf** add new listening port
 
