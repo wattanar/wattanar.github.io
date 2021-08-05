@@ -30,7 +30,7 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combine
 </VirtualHost>
 ```
 
-3.  Update “C:\Windows\System32\drivers\etc\hosts” add new host and port in this file.
+3.  Update **C:\Windows\System32\drivers\etc\hosts** add new host and port in this file.
 
 ```shell
 # 127.0.0.1       localhost
@@ -39,3 +39,8 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combine
 ```
 
 4. Restart apache again and test a new address in browser.
+
+
+
+
+
