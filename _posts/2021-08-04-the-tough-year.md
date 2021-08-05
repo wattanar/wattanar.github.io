@@ -1,8 +1,8 @@
 ---
-title: It's gonna be ok 2021!
+title: The Pandemic !!!
 tags:
   - Blog
 published: true
 ---
 
-Past 2 year pandemic also happen and people died everyday cuz covid-19. It's a tough year :(
+Past 2 year pandemic still happening and people died everyday cuz covid-19. It’s a tough year :(
