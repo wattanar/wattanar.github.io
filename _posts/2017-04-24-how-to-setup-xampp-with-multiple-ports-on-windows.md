@@ -28,7 +28,7 @@ Update **C:\xampp\apache\conf\extra\httpd-vhosts.conf** add new virtual host con
         AllowOverride All
         Require all granted
     </Directory>
-LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combined
+	LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combined
     SetEnvIf Request_URI "(\/assets\/)" dontlog
     CustomLog C:\xampp\Apache24\logs\myweb-access.log combined env=!dontlog
     ErrorLog C:\xampp\Apache24\logs\myweb-error.log
