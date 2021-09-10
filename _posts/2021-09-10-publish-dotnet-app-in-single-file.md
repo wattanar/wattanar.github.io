@@ -8,6 +8,8 @@ published: true
 
 When publish dotnet app to release many file appear in **/Release** folder. But if you don't like it that way and love to compact those file in single file, it could be better. So define property like config below be useful to you.
 
+<!-- more -->
+
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
