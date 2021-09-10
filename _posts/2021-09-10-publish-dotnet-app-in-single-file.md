@@ -4,12 +4,11 @@ tags:
   - Dotnet
   - C#
 published: true
-excerpt_separator: <!--more-->
 ---
 
 When publish dotnet app to release many file appear in **/Release** folder. But if you don't like it that way and love to compact those file in single file, it could be better. So define property like config below be useful to you.
 
-<!-- more -->
+<!--more-->
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
