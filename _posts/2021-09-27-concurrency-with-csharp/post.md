@@ -13,7 +13,6 @@ When you have a lot of process to do in your C# app, but if you do it sequential
 let's me show the code first!
 
 ```cs
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
