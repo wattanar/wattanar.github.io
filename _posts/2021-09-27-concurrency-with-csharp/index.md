@@ -12,7 +12,7 @@ When you have a lot of process to do in your C# app, but if you do it sequential
 
 let's me show the code first!
 
-```C#
+```cs
 
 using System;
 using System.Collections.Generic;
@@ -68,7 +68,7 @@ namespace ConsoleApp
 
 Let's me explain, First assume you have 3 tasks to do and you want to do it concurrency, So i create a list to store all tasks. 
 
-```C#{77,80,81}
+```cs
 var tasks = new List<Task>();
 
 for (int i = 1; i <= 10; i++)
