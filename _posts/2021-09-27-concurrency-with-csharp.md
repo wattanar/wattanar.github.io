@@ -88,4 +88,4 @@ To capture to all the tasks are complete is `await Task.WhenAll(tasks);` then af
 
 See result 
 
-![](assets/images/posts/2021-09-27_10-59-16.png)
+![](/assets/images/posts/2021-09-27_10-59-16.png)
