@@ -87,4 +87,4 @@ To capture to all the tasks are complete is `await Task.WhenAll(tasks);` then af
 
 See result 
 
-![](2021-09-27_10-59-16.png)
+![](./2021-09-27_10-59-16.png)
