@@ -28,7 +28,7 @@ add_filter("manage_edit-movie_columns", "movie_edit_columns");
 Define column to display with filter (change **movie** in **add_filter** parameter to post type you created)
 
 ```php
-function lotto_custom_columns($column) {
+function movie_custom_columns($column) {
   global $post;
 
   switch ($column) {
