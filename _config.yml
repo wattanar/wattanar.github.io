@@ -206,11 +206,11 @@ defaults:
       path: ""
       type: posts
     values:
-      layout: page
+      layout: article
       sharing: true
       license: false
       aside:
-        toc: true
+        toc: false
       show_edit_on_github: false
       show_subscribe: true
       pageview: true
