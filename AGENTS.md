@@ -23,7 +23,7 @@ Default branch: **master** (not main).
 - **Tabs**: Chirpy uses `_tabs/` collection for top navigation pages (e.g., `_tabs/about.md`)
 
 ## Architecture notes
-- `_config.yml` — main site config (theme_mode: dark, url: https://wattanar.com)
+- `_config.yml` — main site config (theme_mode: dark, url: https://wattanar.github.io)
 - `_posts/` — blog posts
 - `_drafts/` — unpublished posts
 - `assets/` — static files (favicon, images). CSS/JS provided by Chirpy gem
