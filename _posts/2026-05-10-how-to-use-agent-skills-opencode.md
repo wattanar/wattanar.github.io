@@ -6,19 +6,30 @@ tags:
   - Developer Tools
 ---
 
-OpenCode includes a powerful **Agent Skills** system — a collection of engineering workflow templates that guide how AI agents approach different development tasks. Instead of guessing what to do next, skills encode the processes senior engineers follow.
+AI coding assistants are getting better at writing code, but they still struggle with one thing: **process**. They jump straight into implementation without understanding the problem, skip verification, and often overcomplicate simple tasks.
+
+OpenCode solves this with **Agent Skills** — a system that encodes engineering workflows so the agent follows the same structured process a senior developer would.
 
 <!--more-->
 
+## The Problem With AI Coding Assistants
+
+If you've used any AI coding tool, you've probably seen these patterns:
+
+- You say "add a search feature" and it builds a full Elasticsearch integration when a simple filter would do
+- It makes assumptions about your architecture and runs with them
+- It writes 500 lines of code when 50 would suffice
+- It skips tests because "it looks right"
+
+These aren't bugs in the AI — they're missing processes. Senior engineers don't make these mistakes because they follow workflows: clarify requirements, break down tasks, implement incrementally, verify at each step.
+
+Agent Skills encode those workflows.
+
 ## What Are Agent Skills?
 
-Agent Skills are specialized workflows organized by development phase. Each skill tells the agent exactly how to approach a specific type of task — from refining vague ideas to shipping to production.
+Agent Skills are specialized workflow templates organized by development phase. Each skill tells the agent exactly how to approach a specific type of task.
 
-The key insight: **skills prevent common mistakes by enforcing structured processes**. A bug fix follows a different workflow than a new feature, and skills make sure the agent uses the right one.
-
-## How Skills Work
-
-When you give OpenCode a task, it identifies the development phase and applies the corresponding skill:
+Here's how the agent decides which skill to use:
 
 ```
 Task arrives
@@ -37,118 +48,117 @@ Task arrives
     └── Deploying/launching? ──────→ shipping-and-launch
 ```
 
-## Configuring Skills
+The agent picks the right skill automatically based on your task description.
 
-Skills are stored in `~/.config/opencode/skills/` as `SKILL.md` files. Each skill contains:
+## How Skills Work in Practice
 
-1. **When to use it** — triggers and conditions
-2. **The workflow** — step-by-step process the agent follows
-3. **Verification steps** — how to confirm the work is correct
-4. **Common failure modes** — what to avoid
+Let's walk through a real example: adding dark mode to a web application.
 
-### Skill Discovery
+### Step 1: Write a Spec First
 
-The agent automatically discovers and applies skills. You don't need to manually select one — just describe your task and the agent picks the right workflow.
-
-For a complete feature, the typical sequence is:
-
-```
-1. idea-refine                 → Refine vague ideas
-2. spec-driven-development     → Define what we're building
-3. planning-and-task-breakdown → Break into verifiable chunks
-4. incremental-implementation  → Build slice by slice
-5. test-driven-development     → Prove each slice works
-6. code-review-and-quality     → Review before merge
-7. git-workflow-and-versioning → Clean commit history
-8. documentation-and-adrs      → Document decisions
-9. shipping-and-launch         → Deploy safely
-```
-
-## Example: Building a Feature
-
-Here's how a real workflow looks when you ask OpenCode to build something:
-
-### 1. Start with a Spec
-
-If you say "add dark mode to my app," the agent loads `spec-driven-development` and writes a spec before coding:
+When you say "add dark mode to my app," the agent doesn't start writing CSS. It loads `spec-driven-development` and writes a spec:
 
 ```markdown
 # Spec: Dark Mode
 
 ## Objective
-Add dark mode support to the application...
-
-## Commands
-Build: npm run build
-Dev: npm run dev
+Add dark mode support with a toggle that persists across sessions.
 
 ## Success Criteria
 - Toggle persists in localStorage
 - No flash of light theme on page load
-- All components pass WCAG contrast ratios
+- All components pass WCAG AA contrast ratios
+- Respects prefers-color-scheme system setting
+
+## Open Questions
+- Should dark mode be the default, or follow system preference?
 ```
 
-### 2. Break Into Tasks
+This forces clarity before any code is written. The spec surfaces assumptions that would otherwise cause rework later.
 
-Next, `planning-and-task-breakdown` creates discrete tasks:
+### Step 2: Break Into Tasks
+
+Once the spec is approved, `planning-and-task-breakdown` creates discrete tasks:
 
 ```
 - [ ] Task: Add theme context provider
   - Acceptance: Theme state available globally
-  - Verify: React DevTools shows ThemeProvider
+  - Verify: DevTools shows ThemeProvider with correct initial value
 
 - [ ] Task: Create dark mode CSS variables
-  - Acceptance: All colors have dark variants
+  - Acceptance: All colors have light and dark variants
   - Verify: Build succeeds, no lint errors
+
+- [ ] Task: Build toggle component
+  - Acceptance: Clicking toggle switches theme and saves to localStorage
+  - Verify: Manual test + unit test for localStorage interaction
 ```
 
-### 3. Implement Incrementally
+Each task is small enough to complete in one focused session, with explicit acceptance criteria and a verification step.
 
-Each task is built one at a time with `test-driven-development` — test first, then code, then verify.
+### Step 3: Implement Incrementally
+
+Each task follows `test-driven-development` — write the failing test first, then make it pass, then verify. No task moves forward until its verification step passes.
 
 ## Core Operating Behaviors
 
-All skills share these non-negotiable rules:
+All skills share six rules that prevent common AI failures:
 
-- **Surface assumptions** — state what you're assuming before implementing
-- **Manage confusion** — stop and ask when requirements conflict
-- **Push back** — point out problems with proposed approaches
-- **Enforce simplicity** — prefer the boring, obvious solution
-- **Maintain scope** — touch only what you're asked to touch
-- **Verify, don't assume** — "seems right" is never enough
-
-## Tips for Best Results
-
-1. **Be specific in your requests** — "fix the login button" is better than "fix login"
-2. **Let the agent write specs** — for anything non-trivial, a spec prevents rework
-3. **Answer clarification questions** — when the agent surfaces assumptions, respond quickly
-4. **Review before approving** — the agent will ask for review at each phase gate
+| Rule | What It Prevents |
+|------|-----------------|
+| **Surface assumptions** | Wrong assumptions about architecture or requirements |
+| **Manage confusion** | Plowing ahead when requirements conflict |
+| **Push back** | Implementing bad approaches without questioning them |
+| **Enforce simplicity** | Overcomplicated solutions when simple ones exist |
+| **Maintain scope** | Unsolicited refactoring of unrelated code |
+| **Verify, don't assume** | "Looks right" code that breaks at runtime |
 
 ## Available Skills
 
-| Skill | One-Line Summary |
-|-------|-----------------|
-| idea-refine | Refine ideas through structured thinking |
-| spec-driven-development | Requirements before code |
-| planning-and-task-breakdown | Decompose into small tasks |
-| incremental-implementation | Build thin vertical slices |
-| source-driven-development | Verify against official docs |
-| context-engineering | Right context at the right time |
-| frontend-ui-engineering | Production-quality UI |
-| api-and-interface-design | Stable interface contracts |
-| test-driven-development | Failing test first |
-| browser-testing-with-devtools | Chrome DevTools verification |
-| debugging-and-error-recovery | Reproduce → localize → fix → guard |
-| code-review-and-quality | Five-axis review |
-| security-and-hardening | OWASP prevention |
-| performance-optimization | Measure first, optimize what matters |
-| git-workflow-and-versioning | Atomic commits, clean history |
-| ci-cd-and-automation | Automated quality gates |
-| documentation-and-adrs | Document the why |
-| shipping-and-launch | Pre-launch checklist, rollback plan |
+Here's the full list of built-in skills and when to use them:
+
+| Skill | When to Use |
+|-------|-------------|
+| idea-refine | You have a vague idea and need to clarify it |
+| spec-driven-development | Starting any non-trivial feature or change |
+| planning-and-task-breakdown | You have a spec and need implementation tasks |
+| incremental-implementation | Building features slice by slice |
+| source-driven-development | Working with frameworks where correctness matters |
+| context-engineering | The agent needs better project context |
+| frontend-ui-engineering | Building or modifying user interfaces |
+| api-and-interface-design | Designing APIs or module boundaries |
+| test-driven-development | Writing tests, fixing bugs, changing behavior |
+| browser-testing-with-devtools | Verifying anything that runs in a browser |
+| debugging-and-error-recovery | Something broke and you need the root cause |
+| code-review-and-quality | Reviewing code before merging |
+| security-and-hardening | Handling user input, auth, or external integrations |
+| performance-optimization | Performance regressions or slow load times |
+| git-workflow-and-versioning | Committing, branching, or resolving conflicts |
+| ci-cd-and-automation | Setting up or modifying build/deploy pipelines |
+| documentation-and-adrs | Recording architectural decisions |
+| shipping-and-launch | Preparing to deploy to production |
+
+## Tips for Best Results
+
+1. **Be specific in your requests** — "fix the login button that doesn't submit" works better than "fix login"
+2. **Let the agent write specs** — for anything that takes more than 30 minutes, a spec prevents hours of rework
+3. **Answer clarification questions** — when the agent surfaces assumptions, respond quickly. Silent assumptions are the #1 cause of wrong implementations
+4. **Review at each phase gate** — the agent asks for review between spec → plan → tasks → implementation. Use those checkpoints
+5. **Don't skip verification** — if a task says "run tests and they pass," actually run the tests
+
+## Where Skills Live
+
+Skills are stored as `SKILL.md` files in `~/.config/opencode/skills/`. Each file contains:
+
+- When to use the skill (triggers)
+- The step-by-step workflow
+- Verification checkpoints
+- Common failure modes to avoid
+
+You can also create custom skills for your team's specific workflows — just add a `SKILL.md` file to that directory.
 
 ## Summary
 
-Agent Skills turn OpenCode from a code generator into a disciplined engineering partner. The skills encode processes that prevent the most common AI failures — wrong assumptions, scope creep, and skipping verification.
+The difference between a good AI coding session and a frustrating one usually comes down to **process**, not capability. Agent Skills give the agent the structure that experienced developers already follow naturally.
 
-Next time you start a feature, let the agent write a spec first. You'll be surprised how much clearer the implementation becomes.
+The biggest takeaway: **always start with a spec for non-trivial changes**. Fifteen minutes writing a spec saves hours of debugging misunderstood requirements.
