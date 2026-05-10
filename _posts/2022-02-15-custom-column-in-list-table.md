@@ -3,7 +3,6 @@ title: Custom Column in List Table
 tags:
   - Wordpress
   - Custom Fields
-published: true
 ---
 
 Custom field is powerful to wordpress development this post will show the example how to display custom field in list table page.

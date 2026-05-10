@@ -3,7 +3,6 @@ title: Concurrency with C#
 tags:
   - Dotnet
   - C#
-published: true
 ---
 
 When you have a lot of process to do in your C# app, but if you do it sequentially it's take so long. So, you can do it concurrency, this is all you have to see.
